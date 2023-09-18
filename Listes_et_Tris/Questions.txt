@@ -1,0 +1,82 @@
+Exercice 1. Propriétés de listes
+Question 1
+
+En utilisant le filtrage de motifs et la récursion, écrire une fonction for_all : (’a -> bool) -> ’a list -> bool qui teste si tous les éléments d’une liste satisfont un prédicat donné.
+
+1 # for_all (fun n -> n >= 0) [1; 2; 3];;
+2 - : bool = true
+3 # for_all (fun n -> n >= 0) [];;
+4 - : bool = true
+5 # for_all (fun n -> n >= 0) [1; -2; 3];;
+6 - : bool = false
+7 # for_all (fun c -> ’a’ <= c && c <= ’z’) [’a’; ’e’; ’z’; ’o’; ’u’];;
+8 - : bool = true
+9 # for_all (fun c -> ’a’ <= c && c <= ’z’) [’a’; ’e’; ’1’; ’o’; ’u’];;
+10 - : bool = false
+
+Question 2
+
+En utilisant le filtrage de motifs et la récursion, écrire une fonction exists : (’a -> bool) -> ’a list -> bool qui teste si au moins un élément d’une liste satisfait un prédicat donné.
+
+1 # exists (fun n -> n < 0) [1; 2; 3];;
+2 - : bool = false
+3 # exists (fun n -> n < 0) [];;
+4 - : bool = false
+5 # exists (fun n -> n < 0) [1; -2; 3];;
+6 - : bool = true
+7 # exists (fun c -> ’0’ <= c && c <= ’9’) [’a’; ’e’; ’z’; ’o’; ’u’];;
+8 - : bool = false
+9 # exists (fun c -> ’0’ <= c && c <= ’9’) [’a’; ’e’; ’1’; ’o’; ’u’];;
+10 - : bool = true
+
+Question 3
+
+En utilisant le filtrage de motifs et la récursion, écrire une fonction for_all_contiguous : (’a -> ’a -> bool) -> ’a list -> bool qui teste si toutes les paires d’éléments contigus d’une liste satisfont un prédicat donné.
+
+1 # for_all_contiguous (fun x y -> y = x + 1) [1; 2; 3; 4; 5];;
+2 - : bool = true
+3 # for_all_contiguous (fun x y -> y = x + 1) [1; 2; 2; 4; 5];;
+4 - : bool = false
+5 # for_all_contiguous (fun x y -> y = 2. *. x) [1.; 2.; 4.; 8.];;
+6 - : bool = true
+7 # for_all_contiguous (fun x y -> y = 2. *. x) [42.];;
+8 - : bool = true
+9 # for_all_contiguous (fun x y -> y = 2. *. x) [];;
+10 - : bool = true
+
+Question 4
+
+Écrire une fonction is_sorted qui teste si une liste est triée en ordre croissant (non-strictement).
+
+Exercice 2. Tri par insertion
+Question 1
+
+Écrire une fonction insert_increasing : ’a -> ’a list -> ’a list telle que (insert value list) insère l’élément value à la bonne place dans la liste list supposée triée par ordre croissant (non-strictement).
+
+1 # let tests = [
+2 insert_increasing 1 []; insert_increasing 1 [2]; insert_increasing 3 [2];
+3 insert_increasing 1 [2;3]; insert_increasing 1 [0;2]; insert_increasing 3 [1;24 ] = [
+5 [1]; [1;2]; [2; 3];
+6 [1;2;3]; [0;1;2]; [1;2;3]
+7 ];;
+8 - : bool = true
+
+Question 2
+
+Écrire une fonction sort_increasing : ’a list -> ’a list qui trie une liste par ordre croissant.
+
+Question 3
+
+Généraliser les deux fonctions précédentes en fonctions :
+• insert: (’a -> ’a -> bool) -> ’a -> ’a list -> ’a list
+• sort : (’a -> ’a -> bool) -> ’a list -> ’a list
+Exemples :
+1 # let tests = [ insert (>) 1 []; insert (>) 1 [2];
+2 insert (>) 3 [2]; insert (>) 1 [3;2];
+3 insert (>) 1 [2;0]; insert (>) 3 [2;1]
+4 ] = [ [1]; [2;1]; [3; 2]; [3;2;1]; [2;1;0]; [3;2;1] ]
+5 - : bool = true
+6 # sort (>=) [1;2;3;4];;
+7 - : int list = [4; 3; 2; 1]
+8 # sort (fun (x,y) (x’,y’) -> y < y’) [(1,6);(0,4);(3,6);(2,0)];;
+9 - : (int * int) list = [(2, 0); (0, 4); (3, 6); (1, 6)]
